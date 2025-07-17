@@ -42,8 +42,16 @@ ENV OPENAI_API_KEY=""
 # Use OpenShift-friendly user
 USER 1001
 
-# Expose Flask port
-EXPOSE 5000
+# Expose both the web UI port and, optionally, the agent’s TUI port
+EXPOSE 8888
 
-# Command to run the Flask app
-CMD ["python3", "app.py"]
+# Start kubectl‑ai in web‑UI mode
+CMD [
+  "kubectl-ai",
+  "--ui-type", "web",
+  "--ui-listen-address", "0.0.0.0:8888",
+  "--llm-provider", "openai",
+  "--model", "gpt-4.1",
+  "--skip-permissions"    # or omit if you want confirm prompts even in UI
+]
+
