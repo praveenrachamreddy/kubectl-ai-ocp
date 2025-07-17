@@ -43,12 +43,7 @@ USER 1001
 # Expose both the web UI port and, optionally, the agent’s TUI port
 EXPOSE 8888
 
-# Start kubectl‑ai in web‑UI mode
-CMD [
-  "kubectl-ai",
-  "--ui-type", "web",
-  "--ui-listen-address", "0.0.0.0:8888",
-  "--llm-provider", "openai",
-  "--model", "gpt-4.1"
-]
+# Start kubectl-ai in web mode
+CMD ["kubectl-ai", "--ui-type", "web", "--ui-listen-address", "0.0.0.0:8888", "--llm-provider", "openai", "--model", "gpt-4.1", "--skip-permissions"]
+
 
