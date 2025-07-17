@@ -9,7 +9,8 @@ RUN yum -y update && \
     yum clean all
 
 # Install kubectl
-RUN curl -LO "https://dl.k8s.io/release/$(curl -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
+RUN KUBECTL_VERSION=$(curl -s https://dl.k8s.io/release/stable.txt || echo "v1.31.0") && \
+    curl -LO "https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl" && \
     chmod +x kubectl && \
     mv kubectl /usr/local/bin/
 
