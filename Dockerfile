@@ -5,23 +5,28 @@ RUN useradd -r -u 1001 -g root default
 
 # Install dependencies
 RUN yum -y update && \
-    yum -y install python3 python3-pip git curl unzip && \
+    yum -y install --allowerasing python3 python3-pip git curl unzip && \
     yum clean all
 
 # Install kubectl
 RUN curl -LO "https://dl.k8s.io/release/$(curl -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
-    chmod +x kubectl && mv kubectl /usr/local/bin/
+    chmod +x kubectl && \
+    mv kubectl /usr/local/bin/
 
 # Install oc (OpenShift CLI)
 RUN curl -LO https://mirror.openshift.com/pub/openshift-v4/clients/oc/latest/linux/oc.tar.gz && \
-    tar -xzf oc.tar.gz && mv oc /usr/local/bin/ && chmod +x /usr/local/bin/oc
+    tar -xzf oc.tar.gz && \
+    mv oc /usr/local/bin/ && \
+    chmod +x /usr/local/bin/oc && \
+    rm oc.tar.gz
 
 # Install kubectl-ai
 RUN curl -sSL https://raw.githubusercontent.com/GoogleCloudPlatform/kubectl-ai/main/install.sh | bash && \
-    mv ~/.kubectl-ai/bin/kubectl-ai /usr/local/bin/
+    mv ~/.kubectl-ai/bin/kubectl-ai /usr/local/bin/ && \
+    rm -rf ~/.kubectl-ai
 
 # Install Flask and OpenAI
-RUN pip3 install flask openai
+RUN pip3 install --no-cache-dir flask openai
 
 # Create workdir
 WORKDIR /app
@@ -38,4 +43,5 @@ USER 1001
 # Expose Flask port
 EXPOSE 5000
 
+# Command to run the Flask app
 CMD ["python3", "app.py"]
