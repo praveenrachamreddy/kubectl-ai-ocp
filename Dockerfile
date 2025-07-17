@@ -27,7 +27,7 @@ RUN pip3 install flask openai
 WORKDIR /app
 
 # Copy Flask API file
-COPY api.py .
+COPY app.py .
 
 # Set environment variable for OpenAI Key (to be overridden)
 ENV OPENAI_API_KEY=""
@@ -38,4 +38,4 @@ USER 1001
 # Expose Flask port
 EXPOSE 5000
 
-CMD ["python3", "api.py"]
+CMD ["python3", "app.py"]
