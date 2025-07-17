@@ -33,8 +33,6 @@ RUN pip3 install --no-cache-dir flask openai
 # Create workdir
 WORKDIR /app
 
-# Copy Flask API file
-COPY app.py .
 
 # Set environment variable for OpenAI Key (to be overridden)
 ENV OPENAI_API_KEY=""
@@ -51,7 +49,6 @@ CMD [
   "--ui-type", "web",
   "--ui-listen-address", "0.0.0.0:8888",
   "--llm-provider", "openai",
-  "--model", "gpt-4.1",
-  "--skip-permissions"    # or omit if you want confirm prompts even in UI
+  "--model", "gpt-4.1"
 ]
 
