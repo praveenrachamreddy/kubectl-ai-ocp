@@ -20,10 +20,12 @@ RUN curl -LO https://mirror.openshift.com/pub/openshift-v4/clients/oc/latest/lin
     chmod +x /usr/local/bin/oc && \
     rm oc.tar.gz
 
-# Install kubectl-ai
-RUN curl -sSL https://raw.githubusercontent.com/GoogleCloudPlatform/kubectl-ai/main/install.sh | bash && \
-    mv ~/.kubectl-ai/bin/kubectl-ai /usr/local/bin/ && \
-    rm -rf ~/.kubectl-ai
+# Install kubectl-ai (manual installation to avoid sudo)
+RUN curl -LO https://github.com/GoogleCloudPlatform/kubectl-ai/releases/download/v0.0.17/kubectl-ai_Linux_x86_64.tar.gz && \
+    tar -xzf kubectl-ai_Linux_x86_64.tar.gz && \
+    mv kubectl-ai /usr/local/bin/ && \
+    chmod +x /usr/local/bin/kubectl-ai && \
+    rm kubectl-ai_Linux_x86_64.tar.gz
 
 # Install Flask and OpenAI
 RUN pip3 install --no-cache-dir flask openai
