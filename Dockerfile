@@ -44,6 +44,9 @@ USER 1001
 EXPOSE 8888
 
 # Start kubectl-ai in web mode
-CMD ["kubectl-ai", "--ui-type", "web", "--ui-listen-address", "0.0.0.0:8888", "--llm-provider", "openai", "--model", "gpt-4.1", "--skip-permissions"]
+# CMD ["kubectl-ai", "--ui-type", "web", "--ui-listen-address", "0.0.0.0:8888", "--llm-provider", "openai", "--model", "gpt-4.1", "--skip-permissions"]
+
+CMD ["kubectl-ai", "--llm-provider", "mistral", "--model", "mistral-7b-instruct", "--custom-llm-config", "/etc/kubectl-ai/custom-llm.yaml", "--ui-type", "web", "--ui-listen-address", "0.0.0.0:8888", "--skip-permissions"]
+
 
 
