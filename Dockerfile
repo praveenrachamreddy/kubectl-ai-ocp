@@ -37,6 +37,9 @@ WORKDIR /app
 # Set environment variable for OpenAI Key (to be overridden)
 ENV OPENAI_API_KEY=""
 
+# Copy custom LLM config
+COPY custom-llm.yaml /etc/kubectl-ai/custom-llm.yaml
+
 # Use OpenShift-friendly user
 USER 1001
 
