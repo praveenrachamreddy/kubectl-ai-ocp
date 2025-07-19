@@ -1,0 +1,14 @@
+providers:
+  - name: mistral
+    type: custom
+    url: https://mistral-7b-praveen-datascience.apps.ocp4.imss.work/api/generate
+    headers:
+      Content-Type: application/json
+    body_template: |
+      {
+        "model": "mistral",
+        "stream": false,
+        "prompt": "{{.Prompt}}"
+      }
+    response_template: |
+      {{ .response }}
