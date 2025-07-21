@@ -36,7 +36,7 @@ WORKDIR /app
 
 # Set ENV for OpenAI compatibility (using your mistral endpoint)
 ENV OPENAI_API_KEY=dummy_key
-ENV OPENAI_API_BASE=https://mistral-7b-praveen-datascience.apps.ocp4.imss.work
+ENV OPENAI_API_BASE=http://mistral-7b-praveen-datascience.apps.ocp4.imss.work
 ENV OPENAI_MODEL_NAME=mistral
 
 
