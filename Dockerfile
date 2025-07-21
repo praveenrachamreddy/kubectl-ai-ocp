@@ -34,11 +34,12 @@ RUN pip3 install --no-cache-dir flask openai
 WORKDIR /app
 
 
-# Set environment variable for OpenAI Key (to be overridden)
-ENV OPENAI_API_KEY=""
+# Set ENV for OpenAI compatibility (using your mistral endpoint)
+ENV OPENAI_API_KEY=dummy_key
+ENV OPENAI_API_BASE=https://mistral-7b-praveen-datascience.apps.ocp4.imss.work
+ENV OPENAI_MODEL_NAME=mistral
 
-# Copy custom LLM config
-COPY custom-llm.yaml /etc/kubectl-ai/custom-llm.yaml
+
 
 # Use OpenShift-friendly user
 USER 1001
@@ -48,8 +49,9 @@ EXPOSE 8888
 
 # Start kubectl-ai in web mode
 # CMD ["kubectl-ai", "--ui-type", "web", "--ui-listen-address", "0.0.0.0:8888", "--llm-provider", "openai", "--model", "gpt-4.1", "--skip-permissions"]
+# Start kubectl-ai using OpenAI provider with custom endpoint
+CMD ["kubectl-ai", "--llm-provider", "openai", "--model", "mistral", "--ui-type", "web", "--ui-listen-address", "0.0.0.0:8888", "--skip-permissions"]
 
-CMD ["kubectl-ai", "--llm-provider", "mistral", "--model", "mistral-7b-instruct", "--custom-llm-config", "/etc/kubectl-ai/custom-llm.yaml", "--ui-type", "web", "--ui-listen-address", "0.0.0.0:8888", "--skip-permissions"]
 
 
 
