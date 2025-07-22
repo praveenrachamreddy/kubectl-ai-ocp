@@ -29,11 +29,10 @@ RUN pip3 install --no-cache-dir flask openai
 # Set working directory
 WORKDIR /app
 
-# ENV VARS for OpenAI compatibility using internal URL
-ENV OPENAI_API_KEY=dummy-key
-ENV OPENAI_API_BASE=http://istio-ingressgateway.istio-system.svc.cluster.local:8080/v1
+# Set ENV for OpenAI compatibility (⚠️ internal cluster URL updated here)
+ENV OPENAI_API_KEY=dummy_key
+ENV OPENAI_API_BASE=http://mistral-7b.praveen-datascience.svc.cluster.local
 ENV OPENAI_MODEL_NAME=mistral
-ENV OPENAI_SKIP_SSL_VERIFICATION=true
 
 # Use OpenShift-friendly user
 USER 1001
