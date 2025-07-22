@@ -31,7 +31,7 @@ WORKDIR /app
 
 # Set ENV for OpenAI compatibility (⚠️ internal cluster URL updated here)
 ENV OPENAI_API_KEY=dummy_key
-ENV OPENAI_API_BASE=http://mistral-7b.praveen-datascience.svc.cluster.local
+ENV OPENAI_API_BASE=https://mistral-7b-praveen-datascience.apps.ocp4.imss.work/v1
 ENV OPENAI_MODEL_NAME=mistral
 
 # Use OpenShift-friendly user
