@@ -23,33 +23,36 @@ RUN curl -LO https://github.com/GoogleCloudPlatform/kubectl-ai/releases/download
     chmod +x /usr/local/bin/kubectl-ai && \
     rm kubectl-ai_Linux_x86_64.tar.gz
 
-# Install Python libraries
+# Install Python libraries (for LLM backends if needed)
 RUN pip3 install --no-cache-dir flask openai google-generativeai
 
 # Set working directory
 WORKDIR /app
 
-# ========== Runtime Configuration ==========
-# These can be overridden at deployment time using env vars
-ENV LLM_PROVIDER=openai \
-    OPENAI_MODEL_NAME=gpt-4 \
-    OPENAI_API_KEY=dummy_key \
-    OPENAI_API_BASE=https://api.openai.com/v1 \
-    UI_TYPE=web \
-    UI_PORT=8888 \
-    STREAM=false
+# ARGs can be overridden at build time if needed
+ARG LLM_PROVIDER=gemini
+ARG OPENAI_MODEL_NAME=gemini-2.5-pro
+ARG UI_TYPE=web
+ARG UI_PORT=8888
 
-# Use OpenShift-friendly user
+# Set ENV vars for runtime override
+ENV LLM_PROVIDER=${LLM_PROVIDER}
+ENV OPENAI_MODEL_NAME=${OPENAI_MODEL_NAME}
+ENV OPENAI_API_KEY=dummy_key
+ENV OPENAI_API_BASE=https://api.openai.com/v1
+ENV UI_TYPE=${UI_TYPE}
+ENV UI_PORT=${UI_PORT}
+
+# Use non-root user
 USER 1001
 
-# Expose web UI port
+# Expose port
 EXPOSE ${UI_PORT}
 
-# Entrypoint command (uses all env vars above)
-CMD ["sh", "-c", "\
-  kubectl-ai \
-    --llm-provider $LLM_PROVIDER \
-    --model $OPENAI_MODEL_NAME \
-    --ui-type $UI_TYPE \
-    --ui-listen-address 0.0.0.0:$UI_PORT \
-    --skip-permissions ]
+# Corrected CMD block — no unterminated string
+CMD sh -c "kubectl-ai \
+  --llm-provider $LLM_PROVIDER \
+  --model $OPENAI_MODEL_NAME \
+  --ui-type $UI_TYPE \
+  --ui-listen-address 0.0.0.0:$UI_PORT \
+  --skip-permissions"
