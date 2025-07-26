@@ -24,21 +24,33 @@ RUN curl -LO https://github.com/GoogleCloudPlatform/kubectl-ai/releases/download
     rm kubectl-ai_Linux_x86_64.tar.gz
 
 # Install Python libraries
-RUN pip3 install --no-cache-dir flask openai
+RUN pip3 install --no-cache-dir flask openai google-generativeai
 
 # Set working directory
 WORKDIR /app
 
-# Set ENV for OpenAI compatibility (⚠️ internal cluster URL updated here)
-ENV OPENAI_API_KEY=dummy_key
-ENV OPENAI_API_BASE=https://mistral-7b-praveen-datascience.apps.ocp4.imss.work/v1
-ENV OPENAI_MODEL_NAME=mistral
+# ========== Runtime Configuration ==========
+# These can be overridden at deployment time using env vars
+ENV LLM_PROVIDER=openai \
+    OPENAI_MODEL_NAME=gpt-4 \
+    OPENAI_API_KEY=dummy_key \
+    OPENAI_API_BASE=https://api.openai.com/v1 \
+    UI_TYPE=web \
+    UI_PORT=8888 \
+    STREAM=false
 
 # Use OpenShift-friendly user
 USER 1001
 
-# Expose port for web UI
-EXPOSE 8888
+# Expose web UI port
+EXPOSE ${UI_PORT}
 
-# Command to run
-CMD ["kubectl-ai", "--llm-provider", "openai", "--model", "mistral", "--ui-type", "web", "--ui-listen-address", "0.0.0.0:8888", "--skip-permissions", "--stream=false"]
+# Entrypoint command (uses all env vars above)
+CMD ["sh", "-c", "\
+  kubectl-ai \
+    --llm-provider $LLM_PROVIDER \
+    --model $OPENAI_MODEL_NAME \
+    --ui-type $UI_TYPE \
+    --ui-listen-address 0.0.0.0:$UI_PORT \
+    --skip-permissions \
+    --stream=$STREAM"]
