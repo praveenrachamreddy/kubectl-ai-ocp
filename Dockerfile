@@ -1,15 +1,15 @@
 FROM registry.access.redhat.com/ubi9/ubi
 
-# Install prerequisites
+# Install dependencies
 RUN yum -y update && \
     yum -y install --allowerasing curl tar gzip python3 && \
     yum clean all
 
-# Install kubectl (optional, if needed)
+# Install kubectl (optional)
 RUN curl -LO "https://dl.k8s.io/release/v1.33.3/bin/linux/amd64/kubectl" && \
     chmod +x kubectl && mv kubectl /usr/local/bin/
 
-# Download and install kubectl-ai latest binary
+# Install kubectl-ai latest release
 RUN KAI_VER=$(curl -s https://api.github.com/repos/GoogleCloudPlatform/kubectl-ai/releases/latest | \
                  grep tag_name | cut -d '"' -f 4) && \
     curl -Lo kubectl-ai.tar.gz \
@@ -30,7 +30,8 @@ ENV LLM_PROVIDER=gemini \
     UI_PORT=8888
 
 ENTRYPOINT ["kubectl-ai"]
-CMD ["--llm-provider", "gemini", \
-     "--model", "gemini-2.5-pro", \
-     "--ui-type", "web", \
-     "--ui-listen-address", "0.0.0.0:8888"]
+CMD ["--llm-provider=gemini", \
+     "--model=gemini-2.5-pro", \
+     "--ui-type=web", \
+     "--ui-listen-address=0.0.0.0:8888", \
+     "--skip-permissions"]
