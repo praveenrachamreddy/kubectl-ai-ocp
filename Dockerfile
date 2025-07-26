@@ -52,5 +52,4 @@ CMD ["sh", "-c", "\
     --model $OPENAI_MODEL_NAME \
     --ui-type $UI_TYPE \
     --ui-listen-address 0.0.0.0:$UI_PORT \
-    --skip-permissions \
-    --stream=$STREAM"]
+    --skip-permissions ]
