@@ -42,6 +42,7 @@ ENV OPENAI_API_KEY=dummy_key
 ENV OPENAI_API_BASE=https://api.openai.com/v1
 ENV UI_TYPE=${UI_TYPE}
 ENV UI_PORT=${UI_PORT}
+ENV GEMINI_API_KEY=''
 
 # Use non-root user
 USER 1001
